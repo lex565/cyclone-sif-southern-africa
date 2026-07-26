@@ -1,0 +1,9 @@
+"country","event","n","pearson_r","pearson_p","spearman_rho","spearman_p"
+"Botswana","Chalane_2020",3,0.751,0.459,0.5,1
+"Malawi","Idai_2019",6,-0.816,0.0476,-0.714,0.136
+"Mozambique","Chalane_2020",3,0.96,0.181,0.5,1
+"Mozambique","Desmond_2019",6,0.126,0.813,0.086,0.919
+"Mozambique","Idai_2019",6,0.683,0.135,0.771,0.103
+"Mozambique","Kenneth_2019",6,0.917,0.0101,0.6,0.242
+"Zimbabwe","Chalane_2020",3,-0.926,0.247,-1,0.333
+"Zimbabwe","Idai_2019",6,0.737,0.0944,0.886,0.0333

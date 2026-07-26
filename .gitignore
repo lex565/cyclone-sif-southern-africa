@@ -1,0 +1,10 @@
+paths_local.R
+.Rhistory
+.RData
+.Rproj.user/
+__pycache__/
+*.pyc
+*.tif.aux.xml
+~$*
+Thumbs.db
+.DS_Store

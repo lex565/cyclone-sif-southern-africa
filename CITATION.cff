@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use this code or the derived data, please cite the software archive and the associated manuscript."
+title: "Cyclone-driven disruption and recovery of vegetation photosynthesis in Southern Africa from TROPOMI SIF: analysis code and derived data"
+abstract: >-
+  R pipeline and derived datasets for an event-based analysis of tropical
+  cyclone impacts on vegetation photosynthesis across Southern Africa
+  (2018-2021), using TROPOMI solar-induced chlorophyll fluorescence within
+  200 km storm-track corridors, with NIRvR and apparent fluorescence yield
+  decomposition and PML-V2 GPP cross-comparison.
+type: software
+license: MIT
+authors:
+  - family-names: Mbendana
+    given-names: Tanaka
+  - family-names: Zhao
+    given-names: Feng
+  - family-names: Gumbo
+    given-names: Anesu Dion
+  - family-names: Rofiqoh
+    given-names: Fitrotur
+keywords:
+  - solar-induced chlorophyll fluorescence
+  - TROPOMI
+  - tropical cyclones
+  - Southern Africa
+  - vegetation disturbance
+  - remote sensing

@@ -1,0 +1,8 @@
+Environment used to produce the results in this archive
+=======================================================
+
+R version 4.5.1 (2025-06-13 ucrt) 
+
+sf 1.0.21
+terra 1.8.93
+ncdf4 1.24

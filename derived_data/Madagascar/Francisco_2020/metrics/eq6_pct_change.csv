@@ -1,0 +1,7 @@
+"window","n_days","pct_naive","pct_corrected"
+"baseline",6,0,0
+"pre7",6,8.3,11.3
+"acute",4,-27,-27.8
+"early",6,-4.3,-6.4
+"recov2",6,7.1,3.2
+"recov3",4,-18.2,-14.5

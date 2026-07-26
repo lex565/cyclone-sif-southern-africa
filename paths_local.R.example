@@ -1,0 +1,11 @@
+# Copy to paths_local.R and edit for your machine, then:
+#   source("paths_local.R")
+# Only CYCLONE_SIF_DATA must point at the raw satellite inputs, which are
+# not redistributed here (see README, 'Raw inputs').
+
+Sys.setenv(CYCLONE_SIF_CODE = "code/00_shared")
+Sys.setenv(CYCLONE_SIF_CODEROOT = "code")
+Sys.setenv(CYCLONE_SIF_OUT = "derived_data")
+Sys.setenv(CYCLONE_SIF_DATA = "data_raw")
+Sys.setenv(CYCLONE_SIF_RESULTS = "results")
+Sys.setenv(CYCLONE_SIF_HOME = ".")

@@ -1,0 +1,40 @@
+suppressMessages(library(ncdf4))
+f <- file.path(Sys.getenv("CYCLONE_SIF_DATA", "data_raw"), "TROPOSIF/2019/TROPOSIF_L2B_2019-03-15.nc")
+cat("exists:", file.exists(f), "\n")
+nc <- nc_open(f)
+
+cat("\n=== top-level dims ===\n")
+print(sapply(nc$dim, function(d) d$len))
+
+grab <- function(path) tryCatch(ncvar_get(nc, path), error=function(e) NA)
+
+sif <- grab("PRODUCT/SIF_Corr_743")
+lat <- grab("PRODUCT/latitude")
+lon <- grab("PRODUCT/longitude")
+cf  <- grab("PRODUCT/SUPPORT_DATA/INPUT_DATA/cloud_fraction_L2")
+sza <- grab("PRODUCT/SUPPORT_DATA/GEOLOCATIONS/solar_zenith_angle")
+nirrad <- grab("PRODUCT/SUPPORT_DATA/DETAILED_RESULTS/Mean_TOA_RAD_743")
+toa <- grab("PRODUCT/SUPPORT_DATA/DETAILED_RESULTS/TOA_RFL")
+wvl <- grab("PRODUCT/SUPPORT_DATA/DETAILED_RESULTS/WVL_RFL")
+
+cat("\n=== shapes ===\n")
+cat("SIF len:", length(sif), "\n")
+cat("lat len:", length(lat), "  lon len:", length(lon), "\n")
+cat("cloud len:", length(cf), "\n")
+cat("sza len:", length(sza), "\n")
+cat("NIRrad len:", length(nirrad), "\n")
+cat("TOA_RFL dim:", paste(dim(toa), collapse=" x "), "\n")
+cat("WVL_RFL:", paste(round(as.numeric(wvl),1), collapse=", "), "\n")
+
+cat("\n=== value ranges (sample) ===\n")
+cat("SIF range:", paste(round(range(sif, na.rm=TRUE),3), collapse=" .. "), "\n")
+cat("lat range:", paste(round(range(lat, na.rm=TRUE),2), collapse=" .. "), "\n")
+cat("lon range:", paste(round(range(lon, na.rm=TRUE),2), collapse=" .. "), "\n")
+cat("cloud range:", paste(round(range(cf, na.rm=TRUE),3), collapse=" .. "), "\n")
+cat("sza range:", paste(round(range(sza, na.rm=TRUE),1), collapse=" .. "), "\n")
+cat("NIRrad range:", paste(round(range(nirrad, na.rm=TRUE),2), collapse=" .. "), "\n")
+
+# how many soundings fall in Zimbabwe corridor bbox (rough): lon 29-34, lat -21..-16
+inbox <- which(lon>29 & lon<34 & lat>-21 & lat< -16)
+cat("\nSoundings in rough Zim bbox (this day):", length(inbox), "\n")
+nc_close(nc)

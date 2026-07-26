@@ -1,0 +1,17 @@
+"country","event","radius_km","acute_days","acute_pct_matched","published_table3"
+"Zimbabwe","Idai_2019",100,2,-29.9,NA
+"Zimbabwe","Idai_2019",150,3,-20.3,NA
+"Zimbabwe","Idai_2019",200,3,-37.8,-37.8
+"Zimbabwe","Idai_2019",300,6,-24.4,NA
+"Mozambique","Kenneth_2019",100,1,-45.8,NA
+"Mozambique","Kenneth_2019",150,1,-47.6,NA
+"Mozambique","Kenneth_2019",200,1,-32.2,-32.2
+"Mozambique","Kenneth_2019",300,2,-60.8,NA
+"Madagascar","Belna_2019",100,7,2.6,NA
+"Madagascar","Belna_2019",150,7,-32.9,NA
+"Madagascar","Belna_2019",200,7,-16.9,-16.9
+"Madagascar","Belna_2019",300,7,14.7,NA
+"Madagascar","Diane_2020",100,6,-54.3,NA
+"Madagascar","Diane_2020",150,6,-45.7,NA
+"Madagascar","Diane_2020",200,6,-19.6,-19.6
+"Madagascar","Diane_2020",300,6,-17.3,NA

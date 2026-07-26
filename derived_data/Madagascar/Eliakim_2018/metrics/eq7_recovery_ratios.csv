@@ -1,0 +1,3 @@
+"phase","rel_lo","rel_hi","n_event_obs","RR_naive","RR_corrected","RR_vs_clim"
+"early_recovery",1,10,0,NA,NA,NA
+"late_recovery",45,60,7122,NA,NA,0.947
