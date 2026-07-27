@@ -9,6 +9,10 @@ abstract: >-
   decomposition and PML-V2 GPP cross-comparison.
 type: software
 license: MIT
+license-url: https://opensource.org/licenses/MIT
+# derived_data/ is CC-BY-4.0; see LICENSE-DATA
+license-url: https://opensource.org/licenses/MIT
+# derived_data/ is CC-BY-4.0; see LICENSE-DATA
 authors:
   - family-names: Mbendana
     given-names: Tanaka

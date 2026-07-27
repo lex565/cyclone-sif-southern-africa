@@ -150,4 +150,10 @@ See `CITATION.cff`. Please cite both this archive and the associated manuscript.
 
 ## License
 
-MIT - see `LICENSE`.
+This archive is dual-licensed, because code and data need different terms:
+
+- **Code** (`code/`) - MIT, see `LICENSE`
+- **Derived data** (`derived_data/`) - Creative Commons Attribution 4.0, see `LICENSE-DATA`
+
+Both require attribution. If you use either, please cite this archive and the
+associated manuscript (see `CITATION.cff`).

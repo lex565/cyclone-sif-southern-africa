@@ -2,7 +2,7 @@
 
 *Written to mirror the manuscript's Section 3 prose. Documents which of the
 original equations (Eq 1–9) were retained, which were corrected, and why, as
-implemented in the R pipeline (`G:\Alex\Results\R_Scripts`). A closing section
+implemented in the R pipeline (`code/`). A closing section
 lists the adjustments still required for publication readiness.*
 
 ---
