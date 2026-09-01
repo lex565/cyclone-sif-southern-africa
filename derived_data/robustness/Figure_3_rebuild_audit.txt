@@ -1,0 +1,37 @@
+FIGURE 3 - UNIFORM FRAME REBUILD
+Built by compose_figure3_uniform.py from the same _pub_build/manifest.csv
+panels as the published version. No value, pixel or colour changed.
+
+Page: 180 x 226 mm at 400 dpi, 2 event blocks per row.
+Common panel aspect (height/width): 1.0173  (geometric mean of the nine event aspects)
+Every panel box: 23.7 x 24.1 mm - identical for all 27 maps.
+
+PER-EVENT PADDING (extent grown symmetrically; nothing cropped or stretched)
+event                              true aspect   padded   lon pad   lat pad
+Mozambique/Kenneth_2019                  1.462    1.017    0.872°    0.000°
+Mozambique/Desmond_2019                  1.445    1.017    1.294°    0.000°
+Mozambique/Chalane_2020                  0.728    1.017    0.000°    0.736°
+Madagascar/Belna_2019                    2.124    1.017    2.511°    0.000°
+Madagascar/Chalane_2020                  0.925    1.017    0.000°    0.331°
+Madagascar/Diane_2020                    0.769    1.017    0.000°    0.757°
+Madagascar/Francisco_2020                1.481    1.017    0.829°    0.000°
+Zimbabwe/Chalane_2020                    0.559    1.017    0.000°    1.696°
+Botswana/Chalane_2020                    0.607    1.017    0.000°    1.641°
+
+EMPTY PANELS - REASON READ FROM THE ARCHIVE, NOT ASSUMED
+The published figure labelled every empty panel 'cloud blackout'.
+Each one below was re-checked by counting TROPOSIF L2B files on disk
+for the days in its window.
+event                          window   dates                     files  reason
+Mozambique/Chalane_2020        recov3   20 Jan - 26 Jan 2021          0  archive gap
+Madagascar/Chalane_2020        recov3   16 Jan - 22 Jan 2021          0  archive gap
+Zimbabwe/Chalane_2020          recov3   20 Jan - 26 Jan 2021          0  archive gap
+Botswana/Chalane_2020          recov3   21 Jan - 27 Jan 2021          0  archive gap
+
+TROPOSIF archive: first 2021 file is 2021-04-25, so 2021-01-01 to
+2021-04-24 contains no files at all. All four empty panels fall in
+16-27 January 2021 and are archive gaps, not cloud.
+
+UNCHANGED FROM THE PUBLISHED FIGURE: colour breaks [-40, -20, -5, 5, 20, 40], palette, Abadi typography,
+column headers, per-panel date captions, north arrow, shared colour bar,
+180 mm page width, 400 dpi, and the source panel rasters themselves.

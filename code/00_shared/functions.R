@@ -24,6 +24,11 @@ read_sif_day <- function(date, bbox, corridor = NULL) {
       toa <- ncvar_get(nc, "PRODUCT/SUPPORT_DATA/DETAILED_RESULTS/TOA_RFL")[, keep, drop = FALSE]
       data.frame(lon = lon[keep], lat = lat[keep],
                  sif = g("PRODUCT/SIF_Corr_743"),
+                 # Variant B (2026-08-07): the instantaneous retrieval, read in the
+                 # SAME pass so running both variants costs one file traverse, not two.
+                 # NOT added to the QC condition below — the retained sounding set must
+                 # stay byte-identical so variant A still reproduces the published values.
+                 sif_raw = g("PRODUCT/SIF_743"),
                  cf  = g("PRODUCT/SUPPORT_DATA/INPUT_DATA/cloud_fraction_L2"),
                  sza = g("PRODUCT/SUPPORT_DATA/GEOLOCATIONS/solar_zenith_angle"),
                  nirrad = g("PRODUCT/SUPPORT_DATA/DETAILED_RESULTS/Mean_TOA_RAD_743"),
@@ -46,8 +51,15 @@ read_sif_day <- function(date, bbox, corridor = NULL) {
         df$nirrad >= TOA_LO & df$nirrad <= TOA_HI &
         is.finite(df$sif) & is.finite(nirvr) & nirvr > 0 & ndvi > NDVI_MIN
   if (!any(ok)) return(NULL)
+  # Diagnostic: SIF_Corr_743 = SIF_743 * daylength factor, so finiteness should
+  # coincide. Report loudly if it ever does not, rather than silently averaging NA.
+  n_bad_raw <- sum(!is.finite(df$sif_raw[ok]))
+  if (n_bad_raw > 0)
+    message(sprintf("[read_sif_day] %s: %d QC-passing soundings have non-finite SIF_743",
+                    format(date, "%Y-%m-%d"), n_bad_raw))
   data.frame(lon = df$lon[ok], lat = df$lat[ok],
-             sif = df$sif[ok], nirvr = nirvr[ok], phif = df$sif[ok] / nirvr[ok])
+             sif = df$sif[ok], nirvr = nirvr[ok], phif = df$sif[ok] / nirvr[ok],
+             sif_raw = df$sif_raw[ok], phif_raw = df$sif_raw[ok] / nirvr[ok])
 }
 
 ## ---- build storm corridor: track LINE buffered (equal-area) ∩ country ----
@@ -106,8 +118,10 @@ chirps_corridor_mean <- function(date, vcorr) {
 ## ---- daily corridor-mean triplet for one date (QC-filtered, clipped) ----
 corridor_day_mean <- function(date, bbox, corridor) {
   p <- read_sif_day(date, bbox, corridor)
-  if (is.null(p) || !nrow(p)) return(c(n = 0, sif = NA, nirvr = NA, phif = NA))
-  c(n = nrow(p), sif = mean(p$sif), nirvr = mean(p$nirvr), phif = mean(p$phif))
+  if (is.null(p) || !nrow(p))
+    return(c(n = 0, sif = NA, nirvr = NA, phif = NA, sif_raw = NA, phif_raw = NA))
+  c(n = nrow(p), sif = mean(p$sif), nirvr = mean(p$nirvr), phif = mean(p$phif),
+    sif_raw = mean(p$sif_raw), phif_raw = mean(p$phif_raw))
 }
 
 ## ---- daily event series + stabilized (+/-pool day) climatology -> data.frame ----
@@ -119,30 +133,39 @@ build_event_series <- function(entry, event_year, clim_years, bbox, corridor,
   evt <- do.call(rbind, lapply(rel_range, function(r) {
     m <- corridor_day_mean(entry + r, bbox, corridor)
     data.frame(rel = r, date = entry + r, n = m["n"],
-               sif = m["sif"], nirvr = m["nirvr"], phif = m["phif"])
+               sif = m["sif"], nirvr = m["nirvr"], phif = m["phif"],
+               sif_raw = m["sif_raw"], phif_raw = m["phif_raw"])
   }))
   clim_for_rel <- function(r) {
-    acc <- list(sif = c(), nirvr = c(), phif = c())
+    acc <- list(sif = c(), nirvr = c(), phif = c(), sif_raw = c(), phif_raw = c())
     for (yr in clim_years) {
       anchor <- as.Date(sprintf("%d%s", yr, format(entry + r, "-%m-%d")), format = "%Y-%m-%d")
       if (is.na(anchor)) next   # Feb 29 of a leap event-year has no match in a non-leap clim year
       for (off in -pool:pool) {
         m <- corridor_day_mean(anchor + off, bbox, corridor)
+        # Gate on sif ONLY, exactly as before, so the pooled climatology sample is
+        # the same set of days under both variants.
         if (is.finite(m["sif"])) { acc$sif <- c(acc$sif, m["sif"])
-          acc$nirvr <- c(acc$nirvr, m["nirvr"]); acc$phif <- c(acc$phif, m["phif"]) }
+          acc$nirvr <- c(acc$nirvr, m["nirvr"]); acc$phif <- c(acc$phif, m["phif"])
+          acc$sif_raw <- c(acc$sif_raw, m["sif_raw"])
+          acc$phif_raw <- c(acc$phif_raw, m["phif_raw"]) }
       }
     }
-    c(n = length(acc$sif), sif = mean(acc$sif), nirvr = mean(acc$nirvr), phif = mean(acc$phif))
+    c(n = length(acc$sif), sif = mean(acc$sif), nirvr = mean(acc$nirvr),
+      phif = mean(acc$phif), sif_raw = mean(acc$sif_raw), phif_raw = mean(acc$phif_raw))
   }
   clim <- do.call(rbind, lapply(rel_range, function(r) {
     cm <- clim_for_rel(r)
     data.frame(rel = r, clim_n = cm["n"], sif.clim = cm["sif"],
-               nirvr.clim = cm["nirvr"], phif.clim = cm["phif"])
+               nirvr.clim = cm["nirvr"], phif.clim = cm["phif"],
+               sif_raw.clim = cm["sif_raw"], phif_raw.clim = cm["phif_raw"])
   }))
   m <- merge(evt, clim, by = "rel"); m <- m[order(m$rel), ]
   m$sif_anom <- m$sif - m$sif.clim
   m$nirvr_anom <- m$nirvr - m$nirvr.clim
   m$phif_anom <- m$phif - m$phif.clim
+  m$sif_raw_anom <- m$sif_raw - m$sif_raw.clim
+  m$phif_raw_anom <- m$phif_raw - m$phif_raw.clim
   m$window <- NA_character_
   for (w in names(windows)) m$window[m$rel >= windows[[w]][1] & m$rel <= windows[[w]][2]] <- w
   rownames(m) <- NULL

@@ -6,16 +6,21 @@ abstract: >-
   cyclone impacts on vegetation photosynthesis across Southern Africa
   (2018-2021), using TROPOMI solar-induced chlorophyll fluorescence within
   200 km storm-track corridors, with NIRvR and apparent fluorescence yield
-  decomposition and PML-V2 GPP cross-comparison.
+  decomposition and PML-V2 GPP cross-comparison. Includes the robustness
+  analyses: the dual-variant reproduction of the published series, the
+  apparent-fluorescence-yield pairing comparison, and the corridor-radius
+  sensitivity results.
 type: software
+version: 1.1.0
+date-released: 2026-09-01
 license: MIT
 license-url: https://opensource.org/licenses/MIT
-# derived_data/ is CC-BY-4.0; see LICENSE-DATA
-license-url: https://opensource.org/licenses/MIT
-# derived_data/ is CC-BY-4.0; see LICENSE-DATA
+repository-code: https://github.com/lex565/cyclone-sif-southern-africa
+# Code is MIT. Everything under derived_data/ is CC BY 4.0; see LICENSE-DATA.
+# doi: 10.5281/zenodo.XXXXXXX      <- uncomment and fill in after the Zenodo deposit
 authors:
   - family-names: Mbendana
-    given-names: Tanaka
+    given-names: Tanaka Alex
   - family-names: Zhao
     given-names: Feng
   - family-names: Gumbo

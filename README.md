@@ -46,8 +46,11 @@ code/
                     attribution_engine.R, run_*.R   (parameterised, country-agnostic)
   IDAI_2019/  CHALANE_2020/  ELOISE_2021/  ...      per-event drivers
   _diagnostics/     storm selection, QC sweeps, coverage checks
+  robustness/       dual-variant rebuild, apparent-yield pairing comparison
 derived_data/       one folder per storm-country event (see below)
+  robustness/       outputs of the robustness analyses
 paths_local.R.example
+KNOWN_ISSUES.md
 CITATION.cff
 LICENSE             MIT
 SESSION_INFO.txt    R and package versions used to produce the archived results
@@ -114,8 +117,13 @@ for all four tested events.
 
 Stated plainly, because they bound what the code can show:
 
-- **Cloud blackout**: 9 of the 21 events have no QC-passing soundings in the acute window.
-  Several "observable" events rest on one to three cloud-free days.
+- **Acute-window coverage**: 9 of the 21 events have no acute-window retrievals at all.
+  This is not cloud: the TROPOSIF holding used here begins on 1 May 2018 and contains no
+  granules between 1 January and 24 April 2021, so two events precede the record and seven
+  fall inside the 2021 gap. Per-event file counts are in
+  `derived_data/robustness/dual_variant_2026_08_07/coverage_audit.csv`. Cloud *is* the
+  binding constraint inside the 12 observable corridors, several of which rest on one to
+  three cloud-free days.
 - **Corridor radius matters**: the acute anomaly is not stable with respect to corridor
   width. Only one of four tested events shows a monotonic response.
 - **Reference-year contamination**: 13 of 21 events have at least one climatology year
@@ -125,6 +133,26 @@ Stated plainly, because they bound what the code can show:
   comes from the same retrieval.
 - **Attribution is exploratory**: three corridors, R2 between 0.12 and 0.21, with antecedent
   and acute rainfall correlated at 0.83 to 0.85.
+
+---
+
+## Robustness analyses
+
+Added 2026-09-01. These do not change any published number; they are the evidence behind
+three decisions in the paper.
+
+| Location | What it establishes |
+|---|---|
+| `code/robustness/dual_variant_2026_08_07/` | Rebuilds all 21 event series reading `SIF_743` alongside `SIF_Corr_743` in a single pass, then recomputes the Eq 6 triplet for every window under both pairings. Outputs in `derived_data/robustness/dual_variant_2026_08_07/`. Verdict: 12 events reproduced, 9 with no event data, 0 mismatches. |
+| `code/robustness/phif_variant_2026_08_04/` | Compares the current apparent-yield pairing (daylength-corrected SIF over instantaneous NIRvR) against the Zeng-consistent instantaneous-over-instantaneous pairing. Verdict: 0 sign flips, Spearman 0.951 for SIF and 0.937 for PhiF, mean absolute shift 3.56 pp. The pairing was documented rather than changed, because Methods 3.4 states the exact identity 1 + dSIF = (1 + dNIRvR)(1 + dPhiF), which only holds if all three move together. |
+| `derived_data/robustness/dual_variant_2026_08_07/coverage_audit.csv` | Per-event acute and window file counts, plus how many non-event years contribute to each climatology. Five of the 12 observable corridors rest on a single reference year. |
+| `code/00_shared/compose_figure3_uniform.py` and `derived_data/robustness/Figure_3_rebuild_audit.txt` | Rebuilds Figure 3 on a common panel geometry, and re-derives the reason each empty panel is empty from the file counts rather than assuming cloud. |
+
+`code/00_shared/functions.R` carries the additive change that makes the dual-variant read
+possible. The QC condition is deliberately untouched, so the retained sounding set is
+byte-identical and the original variant still reproduces the published values.
+
+See `KNOWN_ISSUES.md` before reporting a mismatch.
 
 ---
 
