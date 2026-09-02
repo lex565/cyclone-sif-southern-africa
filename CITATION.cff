@@ -12,7 +12,7 @@ abstract: >-
   sensitivity results.
 type: software
 version: 1.1.0
-date-released: 2026-09-01
+date-released: 2026-09-02
 license: MIT
 license-url: https://opensource.org/licenses/MIT
 repository-code: https://github.com/lex565/cyclone-sif-southern-africa
