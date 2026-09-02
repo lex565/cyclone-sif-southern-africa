@@ -45,10 +45,21 @@ reports in `A_PhiF_residual_pct`. Both are correct for what they are. Do not "re
 them: the SIF and NIRvR columns of Table 3 are pipeline values and the ΦF column is a
 bootstrap estimate, by design.
 
-**Reproducibility gap:** the script that produced the ΦF column, `fix_phif.R`, is not in
-this archive and no longer exists on the authors' machines. Its output survives as
-`summary_tables/table3_phif_corrected.csv` in the earlier deposit. Until it is rebuilt,
-the ΦF column can be checked against that CSV but not regenerated from source. Every other
+**Provenance:** the ΦF column's authoritative values ship here as
+`derived_data/table3_phif_corrected.csv` (12 events, estimate and 95% interval), and
+Table 3 of the paper matches it exactly. The script that produced them, `fix_phif.R`, is
+**not** in this archive and no longer exists: it was written in a temporary working
+directory that has since been cleared, and it was never committed. Recovery was attempted
+on 2026-09-02 across the earlier Zenodo deposit, every surviving working directory, the
+recycle bins of four volumes, volume shadow copies and this repository's history; it is
+gone.
+
+So the ΦF column can be **verified against the shipped CSV but not regenerated from
+source**. A reconstruction was attempted over the 0.1 degree acute-window grid
+(`derived_data/*/*/spatial_maps/anomd_{sif,nirvr}_acute.tif`) and gets close for the
+well-sampled corridors but fails for the sparse ones, because no per-cell baseline
+climatology raster survives to serve as the denominator; the attempt is kept outside this
+archive rather than shipped, so nothing here is mistaken for the original. Every other
 number in Tables 1-3 and 5-7 is reproducible from `code/`.
 
 ## 4. Abadi is an Office cloud font

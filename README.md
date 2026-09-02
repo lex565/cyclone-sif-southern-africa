@@ -106,6 +106,7 @@ These files record checks run against the pipeline rather than new science:
 | `COMMENT2085_recovery_window_rerun.csv` | recovery ratios under both the overlapping and the sequential early window |
 | `COMMENT2090_table7_matched_rerun.csv` | corridor-radius sensitivity recomputed through the main pipeline |
 | `TABLE3_recovery_triplet_rerun.csv` | recovery ratios for SIF, NIRvR and PhiF under both windows |
+| `table3_phif_corrected.csv` | the authoritative Table 3 apparent-yield column: 25 km spatial-block bootstrap estimate of the derived residual, with 95% intervals. See `KNOWN_ISSUES.md` issue 3 - the generating script is lost, so this CSV is the source of record |
 
 Each rerun reproduces the published value before changing anything, so the comparisons are
 like for like. The radius reruns reproduce the main-analysis acute value exactly at 200 km
